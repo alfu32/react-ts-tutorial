@@ -27,13 +27,15 @@ export class Board extends React.Component {
           this.setState({ values, turn, history });
           if (this.hasEnded()) {
             this.props.onEnded(this.state);
+            history.push(values);
+            this.setState({ values, turn, history });
           }
         }}
       />
     );
   }
   hasEnded() {
-    if (this.state.turn === 9) {
+    if (this.state.turn === 8) {
       return true;
     } else return false;
   }
