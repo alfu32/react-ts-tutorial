@@ -5,12 +5,12 @@ import "./Board.css";
 export class Board extends React.Component {
   props = {
     title: "default",
-    onFinished: () => {}
+    onEnded: endState => {}
   };
   state = {
     values: new Array(9),
-    turn: false,
-    history:[],
+    turn: 0,
+    history: []
   };
   renderSquare(index: number) {
     const val = this.state.values ? this.state.values[index] : "?";
@@ -18,16 +18,24 @@ export class Board extends React.Component {
       <Square
         value={val}
         onClick={() => {
-          const turn = !this.state.turn;
+          const turn = this.state.turn + 1;
           const old = this.state.values.slice();
           const values = this.state.values.slice();
-          const history= this.state.history.slice();
+          const history = this.state.history.slice();
           history.push(old);
-          values[index] = this.state.turn ? "X" : "0";
+          values[index] = this.state.turn % 2 ? "X" : "0";
           this.setState({ values, turn, history });
+          if (this.hasEnded()) {
+            this.props.onEnded(this.state);
+          }
         }}
       />
     );
+  }
+  hasEnded() {
+    if (this.state.turn === 9) {
+      return true;
+    } else return false;
   }
   render() {
     return (
