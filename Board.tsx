@@ -3,12 +3,14 @@ import { Square } from "./Square";
 import "./Board.css";
 
 export class Board extends React.Component {
-  state = {
+  props = {
     title: "default",
+  };
+  state = {
     values: ["-", "-", "-", "-", "-", "-", "-", "-", "-"]
   };
-  renderSquare(index: Number) {
-    const val = this.state.values ? this.state.values[index] : "-";
+  renderSquare(index: number) {
+    const val = this.state.values ? this.state.values[index] : "?";
     return <Square value={val} />;
   }
   render() {
