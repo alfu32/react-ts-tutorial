@@ -4,14 +4,25 @@ import "./Board.css";
 
 export class Board extends React.Component {
   props = {
-    title: "default",
+    title: "default"
   };
   state = {
-    values: ["-", "-", "-", "-", "-", "-", "-", "-", "-"]
+    values: ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
+    turn: false
   };
   renderSquare(index: number) {
     const val = this.state.values ? this.state.values[index] : "?";
-    return <Square value={val} />;
+    return (
+      <Square
+        value={val}
+        onClick={() => {
+          const turn = !this.state.turn;
+          const values = this.state.values.slice();
+          values[index] = this.state.turn ? "X" : "0";
+          this.setState({ values, turn });
+        }}
+      />
+    );
   }
   render() {
     return (
@@ -32,6 +43,7 @@ export class Board extends React.Component {
           {this.renderSquare(7)}
           {this.renderSquare(8)}
         </div>
+        <pre>{JSON.stringify(this.state, null, " ")}</pre>
       </div>
     );
   }

@@ -1,13 +1,14 @@
 import React from "react";
 
 export class Square extends React.Component {
-  state = {
-    value: "N"
+  props = {
+    onClick: function() {},
+    value: ""
   };
   render() {
     return (
-      <button className="square" onClick={() => this.setState({ value: "X" })}>
-        {this.state.value}
+      <button className="square" onClick={this.props.onClick}>
+        {this.props.value}
       </button>
     );
   }
