@@ -19,16 +19,13 @@ export class Board extends React.Component {
         value={val}
         onClick={() => {
           const turn = this.state.turn + 1;
-          const old = this.state.values.slice();
           const values = this.state.values.slice();
           const history = this.state.history.slice();
-          history.push(old);
+          history.push(values);
           values[index] = this.state.turn % 2 ? "X" : "0";
           this.setState({ values, turn, history });
           if (this.hasEnded()) {
             this.props.onEnded(this.state);
-            history.push(values);
-            this.setState({ values, turn, history });
           }
         }}
       />
