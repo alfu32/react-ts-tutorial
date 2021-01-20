@@ -24,15 +24,15 @@ export class Board extends React.Component {
           history.push(values);
           values[index] = this.state.turn % 2 ? "X" : "0";
           this.setState({ values, turn, history });
-          if (this.hasEnded()) {
+          if (this.hasEnded(values)) {
             this.props.onEnded(this.state);
           }
         }}
       />
     );
   }
-  hasEnded() {
-    if (this.state.values.filter(v => v === null).length === 0) {
+  hasEnded(values) {
+    if (values.filter(v => v === null).length === 0) {
       return true;
     } else return false;
   }
