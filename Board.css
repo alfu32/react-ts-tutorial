@@ -1,8 +1,17 @@
 .board {
-  display: table;
+  display: block;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 .board > .row {
-  display: table-row;
+  display: block;
+  border: 1px solid #555;
+  margin: 0;
+  padding: 0;
+  min-height: 32px;
+  max-height: 32px;
+  box-sizing: border-box;
 }
 .board > .row > .square {
   display: inline-block;
@@ -11,5 +20,13 @@
   max-width: 32px;
   max-height: 32px;
   border: 1px solid #555;
-  cursor: pointer; 
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-align: center;
+  vertical-align: middle;
+}
+.board > .row > .square:hover {
+  background-color: #eff;
 }
