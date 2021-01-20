@@ -6,7 +6,7 @@ export class Board extends React.Component {
   props = {
     title: "default",
     onEnded: endState => {},
-    onFault: faultState => {}
+    onError: faultState => {}
   };
   state = {
     values: new Array(16).fill(null),
@@ -21,6 +21,11 @@ export class Board extends React.Component {
         onClick={() => {
           const values = this.state.values.slice();
           if (values[index] !== null) {
+            this.props.onError({
+              state: this.state,
+              error: "the cell is already taken",
+              cell: index
+            });
             return;
           }
           const turn = this.state.turn + 1;
