@@ -8,8 +8,8 @@ export class Board extends React.Component {
     values: ["-", "-", "-", "-", "-", "-", "-", "-", "-"]
   };
   renderSquare(i: Number) {
-    const val = this.props.values ? this.props.values[i] : "/";
-    return <Square className="cell" value={val} />;
+    const val = this.props.values ? this.props.values[i] : "-";
+    return <Square value={val} />;
   }
   render() {
     return (
