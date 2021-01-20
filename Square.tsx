@@ -2,11 +2,11 @@ import React from "react";
 
 export class Square extends React.Component {
   props = {
-    value: "default"
+    value: "N"
   };
   render() {
     return (
-      <div className="board">
+      <div className="square">
         <h4>{this.props.value}</h4>
       </div>
     );
