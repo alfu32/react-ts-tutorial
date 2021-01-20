@@ -8,7 +8,7 @@ export class Board extends React.Component {
     onFinished: () => {}
   };
   state = {
-    values: ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
+    values: new Array(9),
     turn: false,
     history:[],
   };
