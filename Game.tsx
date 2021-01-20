@@ -9,7 +9,12 @@ export class Game extends React.Component {
     return (
       <div className="game">
         <h4>{this.props.title}</h4>
-        <Board title={"Board"} />
+        <Board
+          title={"Board"}
+          onEnded={finalState => {
+            alert(`the game has ended in ${finalState.turn} moves`);
+          }}
+        />
       </div>
     );
   }
