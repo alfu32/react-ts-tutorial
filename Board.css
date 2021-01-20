@@ -6,7 +6,6 @@
 }
 .board > .row {
   display: block;
-  border: 1px solid #555;
   margin: 0;
   padding: 0;
   min-height: 32px;
@@ -19,7 +18,7 @@
   min-height: 32px;
   max-width: 32px;
   max-height: 32px;
-  border: 1px solid #555;
+  border: 1px solid #888;
   cursor: pointer;
   margin: 0;
   padding: 0;
@@ -29,4 +28,5 @@
 }
 .board > .row > .square:hover {
   background-color: #eff;
+  border: 1px solid #aaa;
 }
