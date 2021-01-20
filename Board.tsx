@@ -5,7 +5,8 @@ import "./Board.css";
 export class Board extends React.Component {
   props = {
     title: "default",
-    onEnded: endState => {}
+    onEnded: endState => {},
+    onFault: faultState => {}
   };
   state = {
     values: new Array(16).fill(null),
@@ -18,8 +19,11 @@ export class Board extends React.Component {
       <Square
         value={val}
         onClick={() => {
-          const turn = this.state.turn + 1;
           const values = this.state.values.slice();
+          if (values[index] !== null) {
+            return;
+          }
+          const turn = this.state.turn + 1;
           const history = this.state.history.slice();
           history.push(values);
           values[index] = this.state.turn % 2 ? "X" : "0";
