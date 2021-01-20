@@ -22,7 +22,7 @@ class App extends Component<AppProps, AppState> {
       <div>
         <Hello name={this.state.name} />
         <p>Start editing to see some magic happen :)</p>
-        <Game title={this.state.name} />
+        <Game title={"Game"} />
       </div>
     );
   }
