@@ -1,5 +1,6 @@
 import React from "react";
 import { Square } from "./Square";
+import "./Board.css";
 
 export class Board extends React.Component {
   props = {
@@ -8,7 +9,7 @@ export class Board extends React.Component {
   };
   renderSquare(i: Number) {
     const val = this.props.values ? this.props.values[i] : "/";
-    return <Square value={val} />;
+    return <Square className="cell" value={val} />;
   }
   render() {
     return (

@@ -1,0 +1,9 @@
+.board {
+  display: table;
+}
+.board > .row {
+  display: table-row;
+}
+.board > .row > .cell {
+  display: table-cell;
+}
