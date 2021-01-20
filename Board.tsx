@@ -4,11 +4,13 @@ import "./Board.css";
 
 export class Board extends React.Component {
   props = {
-    title: "default"
+    title: "default",
+    onFinished: () => {}
   };
   state = {
     values: ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
-    turn: false
+    turn: false,
+    history:[],
   };
   renderSquare(index: number) {
     const val = this.state.values ? this.state.values[index] : "?";
@@ -17,9 +19,12 @@ export class Board extends React.Component {
         value={val}
         onClick={() => {
           const turn = !this.state.turn;
+          const old = this.state.values.slice();
           const values = this.state.values.slice();
+          const history= this.state.history.slice();
+          history.push(old);
           values[index] = this.state.turn ? "X" : "0";
-          this.setState({ values, turn });
+          this.setState({ values, turn, history });
         }}
       />
     );
