@@ -8,7 +8,7 @@ export class Board extends React.Component {
     onEnded: endState => {}
   };
   state = {
-    values: new Array(16),
+    values: new Array(16).fill(null),
     turn: 0,
     history: []
   };
@@ -35,7 +35,7 @@ export class Board extends React.Component {
     );
   }
   hasEnded() {
-    if (this.state.turn === this.state.values.length - 1) {
+    if (this.state.values.filter(v => v === null).length === 0) {
       return true;
     } else return false;
   }
@@ -63,9 +63,9 @@ export class Board extends React.Component {
         </div>
         <div className="row">
           {this.renderSquare(12)}
-          {this.renderSquare(11)}
-          {this.renderSquare(12)}
           {this.renderSquare(13)}
+          {this.renderSquare(14)}
+          {this.renderSquare(15)}
         </div>
         <pre>{JSON.stringify(this.state, null, " ")}</pre>
       </div>
