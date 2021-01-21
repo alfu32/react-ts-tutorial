@@ -5,45 +5,21 @@ import "./Board.css";
 export class Board extends React.Component {
   props = {
     title: "default",
+    onClickSquare: squareData => {},
     onEnded: endState => {},
-    onError: faultState => {}
-  };
-  state = {
-    values: new Array(16).fill(null),
-    turn: 0,
-    history: []
+    onError: faultState => {},
+    values: new Array(16).fill(null)
   };
   renderSquare(index: number) {
-    const val = this.state.values ? this.state.values[index] : "?";
+    const value = this.props.values ? this.props.values[index] : "?";
     return (
       <Square
-        value={val}
+        value={value}
         onClick={() => {
-          const values = this.state.values.slice();
-          if (values[index] !== null) {
-            this.props.onError({
-              state: this.state,
-              error: "the cell is already taken",
-              cell: index
-            });
-            return;
-          }
-          const turn = this.state.turn + 1;
-          const history = this.state.history.slice();
-          history.push(values);
-          values[index] = this.state.turn % 2 ? "X" : "0";
-          this.setState({ values, turn, history });
-          if (this.hasEnded(values)) {
-            this.props.onEnded(this.state);
-          }
+          this.props.onClickSquare({ index, value });
         }}
       />
     );
-  }
-  hasEnded(values) {
-    if (values.filter(v => v === null).length === 0) {
-      return true;
-    } else return false;
   }
   render() {
     return (
