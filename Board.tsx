@@ -6,17 +6,24 @@ export class Board extends React.Component {
   props = {
     title: "default",
     onClickSquare: squareData => {},
-    onEnded: endState => {},
-    onError: faultState => {},
     values: new Array(16).fill(null)
   };
+  state = {
+    values: new Array(16).fill(null)
+  };
+  componentDidMount() {
+    const values = this.props.values.slice();
+    this.setState({ values });
+  }
   renderSquare(index: number) {
-    const value = this.props.values ? this.props.values[index] : "?";
+    const value = this.state.values ? this.state.values[index] : "?";
     return (
       <Square
         value={value}
         onClick={() => {
-          this.props.onClickSquare({ index, value });
+          const values = this.state.values.slice();
+          values[index] = this.props.onClickSquare({ index, value });
+          this.setState({ values });
         }}
       />
     );
@@ -49,7 +56,6 @@ export class Board extends React.Component {
           {this.renderSquare(14)}
           {this.renderSquare(15)}
         </div>
-        <pre>{JSON.stringify(this.state, null, " ")}</pre>
       </div>
     );
   }

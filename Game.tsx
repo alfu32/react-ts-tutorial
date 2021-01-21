@@ -11,7 +11,7 @@ export class Game extends React.Component {
     turn: 0,
     history: []
   };
-  squareClick(index: number) {
+  onClickSquare({ index, value }) {
     const values = this.state.values.slice();
     if (values[index] !== null) {
       this.onError({
@@ -29,6 +29,7 @@ export class Game extends React.Component {
     if (this.hasEnded(values)) {
       this.props.onEnded(this.state);
     }
+    return values[index];
   }
   hasEnded(values) {
     if (values.filter(v => v === null).length === 0) {
@@ -42,10 +43,12 @@ export class Game extends React.Component {
         <h4>{this.props.title}</h4>
         <Board
           title={"Board"}
-          onEnded={finalState => {
-            alert(`the game has ended in ${finalState.turn} moves`);
+          values={this.state.values}
+          onClickSquare={square => {
+            this.onClickSquare(square);
           }}
         />
+        <pre>{JSON.stringify(this.state, null, " ")}</pre>
       </div>
     );
   }
