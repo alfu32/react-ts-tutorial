@@ -30,6 +30,10 @@ export class Game extends React.Component {
         })
       : null;
   }
+  newGame(): void {
+    this.props.onEnded({ ...this.state });
+    this.reset();
+  }
   componentWillMount() {
     this.reset();
   }
@@ -48,24 +52,31 @@ export class Game extends React.Component {
     history.push(values);
     values[index] = this.state.turn % 2 ? "X" : "0";
     this.setState({ values, turn, history });
-    if (this.hasEnded(values)) {
-      if (this.props.onEnded(this.state)) {
-        setTimeout(() => this.reset(), 1000);
-      }
-    }
     return values[index];
   }
-  hasEnded(values) {
-    if (values.filter(v => v === null).length === 0) {
+  hasEnded() {
+    if (this.state.values.filter(v => v === null).length === 0) {
       return true;
     } else return false;
   }
   onError(error) {}
   render() {
+    const hasEnded = this.hasEnded();
     return (
       <div className="game">
         <h4>{this.props.title}</h4>
-        <button onClick={() => this.reset()}>reset</button>
+        <button
+          style={{ dislpay: hasEnded ? "none" : null }}
+          onClick={() => this.reset()}
+        >
+          reset
+        </button>
+        <button
+          style={{ dislpay: hasEnded ? null : "none" }}
+          onClick={() => this.newGame()}
+        >
+          new
+        </button>
         <Board
           ref={this.boardRef}
           title={"Board"}
