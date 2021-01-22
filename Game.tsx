@@ -65,8 +65,20 @@ export class Game extends React.Component {
           Turn : {this.state.turn} / {this.state.values.length}
         </div>
         {this.state.history.map((h, i) => (
-          <pre>
-            [{i} : {h.map(c => (c ? c : "-")).join("")}]
+          <pre
+            style={{
+              display: "inline-block",
+              border: "1px solid #999",
+              margin: "1px"
+            }}
+          >
+            {h
+              .reduce((a, c, i) => {
+                const ri = parseInt("" + i / 4, 10);
+                a[ri] = (a[ri] || "") + (c ? c : "-");
+                return a;
+              }, [])
+              .join("\n")}
           </pre>
         ))}
         <pre>{JSON.stringify(this.state, null, " ")}</pre>
