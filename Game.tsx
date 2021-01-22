@@ -1,5 +1,6 @@
 import React from "react";
 import { Board } from "./Board";
+import { MiniBoard } from "./MiniBoard";
 
 export class Game extends React.Component {
   boardRef: React.RefObject<Board>;
@@ -78,21 +79,7 @@ export class Game extends React.Component {
         </div>
         <h4>History</h4>
         {this.state.history.map((h, i) => (
-          <pre
-            style={{
-              display: "inline-block",
-              border: "1px solid #999",
-              margin: "1px"
-            }}
-          >
-            {h
-              .reduce((a, c, i) => {
-                const ri = parseInt("" + i / 4, 10);
-                a[ri] = (a[ri] || "") + (c ? c : "-");
-                return a;
-              }, [])
-              .join("\n")}
-          </pre>
+          <MiniBoard turn={"" + i} game={h} />
         ))}
       </div>
     );

@@ -1,0 +1,9 @@
+mini-board > table.table,
+mini-board > table.table > tbody,
+mini-board > table.table > tbody > tr,
+mini-board > table.table > tbody > tr > td {
+  border-collapse: collapse;
+}
+mini-board > table.table > tbody > tr > td {
+  border: 1px solid #777;
+}
