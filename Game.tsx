@@ -64,6 +64,7 @@ export class Game extends React.Component {
         <div>
           Turn : {this.state.turn} / {this.state.values.length}
         </div>
+        <h4>History</h4>
         {this.state.history.map((h, i) => (
           <pre
             style={{
@@ -81,7 +82,6 @@ export class Game extends React.Component {
               .join("\n")}
           </pre>
         ))}
-        <pre>{JSON.stringify(this.state, null, " ")}</pre>
       </div>
     );
   }
