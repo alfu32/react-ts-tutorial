@@ -2,6 +2,11 @@ import React from "react";
 import { Board } from "./Board";
 
 export class Game extends React.Component {
+  boardRef: React.RefObject<Board>;
+  constructor(props) {
+    super(props);
+    this.boardRef = React.createRef();
+  }
   props = {
     title: "default",
     onEnded: gameData => ({})
@@ -18,6 +23,11 @@ export class Game extends React.Component {
   };
   reset() {
     this.setState(Game.initState());
+    this.boardRef && this.boardRef.current
+      ? this.boardRef.current.setState({
+          values: new Array(16).fill(null)
+        })
+      : null;
   }
   componentWillMount() {
     this.reset();
@@ -39,7 +49,7 @@ export class Game extends React.Component {
     this.setState({ values, turn, history });
     if (this.hasEnded(values)) {
       if (this.props.onEnded(this.state)) {
-        this.reset();
+        setTimeout(() => this.reset(), 1000);
       }
     }
     return values[index];
@@ -54,7 +64,9 @@ export class Game extends React.Component {
     return (
       <div className="game">
         <h4>{this.props.title}</h4>
+        <button onClick={() => this.reset()}>reset</button>
         <Board
+          ref={this.boardRef}
           title={"Board"}
           values={this.state.values}
           onClickSquare={square => {
