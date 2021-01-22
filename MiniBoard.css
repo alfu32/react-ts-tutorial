@@ -1,0 +1,38 @@
+.mini-board {
+  display: inline-block;
+  margin: 2px;
+}
+.mini-board > label {
+  font-size: 10px;
+}
+.mini-board > table.table,
+.mini-board > table.table > tbody,
+.mini-board > table.table > tbody > tr,
+.mini-board > table.table > tbody > tr > td,
+.mini-board > table.table > tbody > tr > td > div {
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.mini-board > table.table > tbody > tr > td > div {
+  font-size: 6px;
+  font-family: monospace;
+  min-width: 10px;
+  min-height: 10px;
+}
+.mini-board > table.table > tbody > tr {
+  border-left: 1px solid #777;
+  border-top: 1px solid #777;
+}
+.mini-board > table.table > tbody > tr > td {
+  border-right: 1px solid #777;
+  border-bottom: 1px solid #777;
+}
+
+.mini-board > table.table > tbody > tr > td > div[data-value="X"] {
+  background-color: #c20;
+}
+.mini-board > table.table > tbody > tr > td > div[data-value="0"] {
+  background-color: #280;
+}
