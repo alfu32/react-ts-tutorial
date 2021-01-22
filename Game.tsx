@@ -6,11 +6,22 @@ export class Game extends React.Component {
     title: "default",
     onEnded: gameData => ({})
   };
-  state = {
+  static initState = () => ({
     values: new Array(16).fill(null),
     turn: 0,
     history: []
+  });
+  state: {
+    values: Array<string>;
+    turn: number;
+    history: Array<Array<string>>;
   };
+  reset() {
+    this.setState(Game.initState());
+  }
+  componentWillMount() {
+    this.reset();
+  }
   onClickSquare({ index, value }) {
     const values = this.state.values.slice();
     if (values[index] !== null) {
@@ -27,7 +38,9 @@ export class Game extends React.Component {
     values[index] = this.state.turn % 2 ? "X" : "0";
     this.setState({ values, turn, history });
     if (this.hasEnded(values)) {
-      this.props.onEnded(this.state);
+      if (this.props.onEnded(this.state)) {
+        this.reset();
+      }
     }
     return values[index];
   }
@@ -45,9 +58,17 @@ export class Game extends React.Component {
           title={"Board"}
           values={this.state.values}
           onClickSquare={square => {
-            this.onClickSquare(square);
+            return this.onClickSquare(square);
           }}
         />
+        <div>
+          Turn : {this.state.turn} / {this.state.values.length}
+        </div>
+        {this.state.history.map((h, i) => (
+          <pre>
+            [{i} : {h.map(c => (c ? c : "-")).join("")}]
+          </pre>
+        ))}
         <pre>{JSON.stringify(this.state, null, " ")}</pre>
       </div>
     );

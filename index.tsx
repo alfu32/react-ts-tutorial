@@ -22,7 +22,14 @@ class App extends Component<AppProps, AppState> {
       <div>
         <Hello name={this.state.name} />
         <p>Start editing to see some magic happen :)</p>
-        <Game title={"Game"} />
+        <Game
+          title={"Game"}
+          onEnded={gameData => {
+            return confirm(
+              `game has ended in ${gameData.turn} moves \n play again ?`
+            );
+          }}
+        />
       </div>
     );
   }
