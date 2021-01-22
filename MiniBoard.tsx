@@ -18,22 +18,20 @@ export class MiniBoard extends React.Component {
   state: MiniBoardState;
   render() {
     const size = parseInt("" + Math.sqrt(this.state.game.length));
-    const indexes = new Array(size);
+    const indexes = new Array(size).fill(0);
 
     return (
       <div className="mini-board">
-        <div>
-          {size}x{size} Game
-        </div>
         <label>Turn : {this.state.turn}</label>
-        <div>{indexes.join(".")}</div>
         <table className="table">
           <tbody className="body">
             {indexes.map((r, i) => (
               <tr>
                 {indexes.map((c, j) => (
                   <td>
-                    ({i},{j}){this.props.game[j + size * i]}
+                    <div data-value={this.state.game[j + size * i]}>
+                      {this.state.game[j + size * i]}
+                    </div>
                   </td>
                 ))}
               </tr>
