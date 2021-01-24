@@ -34,7 +34,7 @@ export class Game extends React.Component {
     this.props.onEnded({ ...this.state });
     this.reset();
   }
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.reset();
   }
   onClickSquare({ index, value }) {
