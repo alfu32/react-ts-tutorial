@@ -7,24 +7,10 @@ import "./style.css";
 // STORE -> globalized state
 import { createStore } from "redux";
 // ACTION descriptors ( intents ) for real actions {increment, decrement, etc.} -> an intention
-const increment = () => ({
-  type: "be.alf.tictactoe.INCREMENT",
-});
-const decrement = () => ({
-  type: "be.alf.tictactoe.DECREMENT",
-});
+import {increment, decrement} from './actions';
 // REDUCERS -> descries how actions are goingto transform current state into the next state
-const counter = (state = 0, action) => {
-  switch (action.type) {
-    case "be.alf.tictactoe.INCREMENT":
-      return state + 1;
-    case "be.alf.tictactoe.DECREMENT":
-      return state - 1;
-    default:
-      return state;
-  }
-};
-const store = createStore(counter);
+import {counterReducer} from './reducers';
+const store = createStore(counterReducer);
 // Display it on the console
 
 store.subscribe(() => console.log(store.getState()));
