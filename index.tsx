@@ -4,6 +4,30 @@ import { Game } from "./Game";
 import Hello from "./Hello";
 import "./style.css";
 
+// STORE -> globalized state
+import {createStore} from 'redux';
+// ACTION descriptors ( intents ) for real actions {increment, decrement, etc.} -> an intention
+const increment = () => {
+  return {
+    type: 'be.alf.tictactoe.INCREMENT',
+  };
+}
+const decrement = () => {
+  return {
+    type: 'be.alf.tictactoe.DECREMENT',
+  };
+}
+// REEDUCERS -> descries how actions are goingto transform current state into the next state
+const counter = (state = 0, action) => {
+  switch(action.type) {
+    case 'be.alf.tictactoe.INCREMENT': return state + 1;
+    case 'be.alf.tictactoe.DECREMENT': return state - 1;
+    default: return state;
+  };
+};
+//  DISPATCH
+
+
 interface AppProps {}
 interface AppState {
   name: string;
@@ -22,6 +46,9 @@ class App extends Component<AppProps, AppState> {
   render() {
     return (
       <div>
+        <div className="counters">
+          <h4>Counters</h4>
+        </div>
         <Game
           title={"Game"}
           onEnded={gameData => {
