@@ -1,1 +1,2 @@
-export * from './counters';
+export * from "./counters";
+export * from "./games";
