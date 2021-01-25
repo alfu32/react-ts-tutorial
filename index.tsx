@@ -4,7 +4,7 @@ import { Game } from "./Game";
 import { Counter } from "./Counter";
 import Hello from "./Hello";
 import "./style.css";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 
 // STORE -> globalized state
 import { createStore } from "redux";
@@ -12,7 +12,7 @@ import { createStore } from "redux";
 import { increment, decrement } from "./actions";
 // REDUCERS -> descries how actions are goingto transform current state into the next state
 import { counterReducer } from "./reducers";
-const store = createStore(counterReducer);
+export const store = createStore(counterReducer);
 // Display it on the console
 
 store.subscribe(() => console.log(store.getState()));
@@ -47,7 +47,7 @@ class App extends Component<AppProps, AppState> {
   render() {
     return (
       <Provider store={store}>
-        <Counter />
+      <Counter />
         <div>
           <Game
             title={"Game"}
