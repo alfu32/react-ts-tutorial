@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import { Game } from "./Game";
+import { Counter } from "./Counter";
 import Hello from "./Hello";
 import "./style.css";
+import { Provider } from "react-redux";
 
 // STORE -> globalized state
 import { createStore } from "redux";
 // ACTION descriptors ( intents ) for real actions {increment, decrement, etc.} -> an intention
-import {increment, decrement} from './actions';
+import { increment, decrement } from "./actions";
 // REDUCERS -> descries how actions are goingto transform current state into the next state
-import {counterReducer} from './reducers';
+import { counterReducer } from "./reducers";
 const store = createStore(counterReducer);
 // Display it on the console
 
@@ -44,21 +46,19 @@ class App extends Component<AppProps, AppState> {
 
   render() {
     return (
-      <div>
-        <div className="counters">
-          <h4>Counters {this.state.counter}</h4>
-          <button onClick={() => store.dispatch(increment())}>+</button>
-          <button onClick={() => store.dispatch(decrement())}>-</button>
+      <Provider store={store}>
+        <Counter />
+        <div>
+          <Game
+            title={"Game"}
+            onEnded={gameData => {
+              return confirm(
+                `game has ended in ${gameData.turn} moves \n play again ?`
+              );
+            }}
+          />
         </div>
-        <Game
-          title={"Game"}
-          onEnded={gameData => {
-            return confirm(
-              `game has ended in ${gameData.turn} moves \n play again ?`
-            );
-          }}
-        />
-      </div>
+      </Provider>
     );
   }
 }
