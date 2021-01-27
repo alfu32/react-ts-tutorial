@@ -5,14 +5,13 @@ import { Counter } from "./Counter";
 import Hello from "./Hello";
 import "./style.css";
 import { Provider, useDispatch } from "react-redux";
-
 // STORE -> globalized state
 import { createStore } from "redux";
 // ACTION descriptors ( intents ) for real actions {increment, decrement, etc.} -> an intention
 import { increment, decrement } from "./actions";
 // REDUCERS -> descries how actions are goingto transform current state into the next state
-import { counterReducer } from "./reducers";
-export const store = createStore(counterReducer);
+import { reducers } from "./reducers";
+export const store = createStore(reducers);
 // Display it on the console
 
 store.subscribe(() => console.log(store.getState()));
@@ -43,12 +42,13 @@ class App extends Component<AppProps, AppState> {
       this.setState(newState);
     });
   }
-
+  chk(){
+    return (<Provider store={store}></Provider>);
+  }
   render() {
     return (
-      <Provider store={store}>
-      <Counter />
         <div>
+          <Counter />
           <Game
             title={"Game"}
             onEnded={gameData => {
@@ -58,7 +58,6 @@ class App extends Component<AppProps, AppState> {
             }}
           />
         </div>
-      </Provider>
     );
   }
 }
