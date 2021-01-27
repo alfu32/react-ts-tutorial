@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { increment, decrement } from "./actions";
 import {store} from './';
+import { Unsubscribe } from "redux";
 
 export interface CounterState {
   counter: number;
@@ -10,13 +11,20 @@ export interface CounterProps {
 }
 
 export class Counter extends React.Component {
-  subscription = store.subscribe(() => this.setState({counter:store.getState().counter}));
+  unsubscribe: Unsubscribe;
+  
+  UNSAFE_componentWillMount(){
+    this.unsubscribe = store.subscribe(() => this.setState({counter:store.getState().counter}));
+  }
+  componentWillUnmount(){
+    this.unsubscribe();
+  }
   render(){
     return (
     <div className="counters">
-      <h4>Counter {this.state?.counter||0}</h4>
       <button onClick={() => store.dispatch(increment())}>+</button>
       <button onClick={() => store.dispatch(decrement())}>-</button>
+      <strong>Counter {this.state?.counter}</strong>
     </div>
   );
   }
