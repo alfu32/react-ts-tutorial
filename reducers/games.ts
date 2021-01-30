@@ -31,6 +31,7 @@ export const gamesReducer = (
           }
         }
       )
+      state = { ...state };
       return state;
     case "be.alf.tictactoe.game.LOAD":
       state.games = state.games.concat([state.currentGame]);
@@ -40,9 +41,10 @@ export const gamesReducer = (
       nextCurrentGameState.history = nextCurrentGameState.history.concat(
         currentGameValues
       );
-      nextCurrentGameState.values[state.currentGame.turn] =
+      nextCurrentGameState.values[action.payload.index] =
         state.currentGame.turn % 2 ? "X" : "0";
       state.currentGame = { ...nextCurrentGameState };
+      state = { ...state };
       return state;
     case "be.alf.tictactoe.game.move.BACK":
 

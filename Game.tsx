@@ -1,6 +1,7 @@
 import React from "react";
 import { Unsubscribe } from "redux";
 import { store } from "./";
+import { move } from "./actions/games";
 import { Board } from "./Board";
 import { MiniBoard } from "./MiniBoard";
 
@@ -50,6 +51,7 @@ export class Game extends React.Component {
     this.reset();
   }
   onClickSquare({ index, value }) {
+    store.dispatch(move(index));
     const values = this.state.values.slice();
     if (values[index] !== null) {
       this.onError({

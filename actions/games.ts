@@ -10,9 +10,9 @@ export const restoreSavedGame = (index) => ({
     index,
   }
 });
-export const move = (turn) => ({
+export const move = (index) => ({
   type: "be.alf.tictactoe.game.move.SET",
-  payload: { turn }
+  payload: { index }
 });
 export const undo = (turn)  => ({
   type: "be.alf.tictactoe.game.move.BACK",
