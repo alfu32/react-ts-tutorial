@@ -1,23 +1,38 @@
 import React from "react";
+import { Unsubscribe } from "redux";
+import { store } from "./";
 import { Board } from "./Board";
 import { MiniBoard } from "./MiniBoard";
 
 export class Game extends React.Component {
+  unsubscribe: Unsubscribe;
   boardRef: React.RefObject<Board>;
   constructor(props) {
     super(props);
     this.boardRef = React.createRef();
+  }
+  UNSAFE_componentWillMount(){
+    this.unsubscribe = store.subscribe(() => {
+      const newState = { ...store.getState().games.currentGame };
+      this.setState(newState);
+    });
+    this.reset();
+  }
+  componentWillUnmount(){
+    this.unsubscribe();
   }
   props = {
     title: "default",
     onEnded: gameData => ({})
   };
   static initState = () => ({
+    id:null,
     values: new Array(16).fill(null),
     turn: 0,
     history: []
   });
   state: {
+    id: number,
     values: Array<string>;
     turn: number;
     history: Array<Array<string>>;
@@ -32,9 +47,6 @@ export class Game extends React.Component {
   }
   newGame(): void {
     this.props.onEnded({ ...this.state });
-    this.reset();
-  }
-  UNSAFE_componentWillMount() {
     this.reset();
   }
   onClickSquare({ index, value }) {
