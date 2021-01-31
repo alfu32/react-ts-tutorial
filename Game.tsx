@@ -24,14 +24,8 @@ export class Game extends React.Component {
   }
   props = {
     title: "default",
-    onEnded: gameData => ({})
+    onChanged: gameData => ({}),
   };
-  static initState = () => ({
-    id:null,
-    values: new Array(16).fill(null),
-    turn: 0,
-    history: []
-  });
   state: GameState;
   reset() {
     this.setState(Game.initState());
@@ -40,16 +34,19 @@ export class Game extends React.Component {
           values: new Array(16).fill(null)
         })
       : null;
+    try{this.onChanged();}catch(err){}
   }
   newGame(): void {
+    this.reset();
+  }
+  onChanged(){
     const oldState={
       id:this.state.id,
       turn:this.state.turn,
       values:this.state.values,
       history:[...this.state.history],
     }
-    this.props.onEnded({ ...oldState });
-    this.reset();
+    this.props.onChanged({ ...oldState });
   }
   onClickSquare({ index, value }) {
     const values = this.state.values.slice();
@@ -66,13 +63,7 @@ export class Game extends React.Component {
     values[index] = this.state.turn % 2 ? "X" : "0";
     history.push([...values]);
     this.setState({ values, turn, history:[...history] });
-    const storeState={
-      id:this.state.id,
-      turn:turn,
-      values:[...values],
-      history:[...history],
-    }
-    store.dispatch(move(storeState));
+    this.onChanged();
     return values[index];
   }
   hasEnded() {
@@ -86,18 +77,6 @@ export class Game extends React.Component {
     return (
       <div className="game">
         <h4>{this.props.title}</h4>
-        <button
-          // style={{ dislpay: hasEnded ? "none" : null }}
-          onClick={() => this.reset()}
-        >
-          reset
-        </button>
-        <button
-          // style={{ dislpay: hasEnded ? null : "none" }}
-          onClick={() => this.newGame()}
-        >
-          new
-        </button>
         <Board
           ref={this.boardRef}
           title={"Board"}

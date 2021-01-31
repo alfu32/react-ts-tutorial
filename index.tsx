@@ -23,11 +23,18 @@ store.subscribe(() => console.log(store.getState()));
 store.dispatch(increment());
 store.dispatch(increment());
 store.dispatch(decrement());
-export interface GameState {
+export class GameState {
   id: number | null;
   values: Array<string>;
   turn: number;
   history:Array<Array<string>>;
+
+  static initState = () => ({
+    id:null,
+    values: new Array(16).fill(null),
+    turn: 0,
+    history: []
+  });
 }
 interface AppProps {}
 interface AppState {
@@ -86,7 +93,7 @@ class App extends Component<AppProps, AppState> {
         <button onClick={() => store.dispatch(createCurrentGame())}>new</button>
         <Game
           title={"Game"}
-          onEnded={gameData => {
+          onChanged={gameData => {
             store.dispatch(storeCurrentGame());
             // alert(`game has ended in ${gameData.turn} moves \n play again ?`);
             return true;
