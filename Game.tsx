@@ -1,9 +1,10 @@
 import React from "react";
 import { Unsubscribe } from "redux";
-import { store } from "./";
-import { move } from "./actions/games";
+import { GameState, store } from "./";
+import { move, storeCurrentGame } from "./actions/games";
 import { Board } from "./Board";
 import { MiniBoard } from "./MiniBoard";
+import { selectCurrentGame } from "./selectors";
 
 export class Game extends React.Component {
   unsubscribe: Unsubscribe;
@@ -13,9 +14,8 @@ export class Game extends React.Component {
     this.boardRef = React.createRef();
   }
   UNSAFE_componentWillMount(){
-    this.unsubscribe = store.subscribe(() => {
-      const newState = { ...store.getState().games.currentGame };
-      this.setState(newState);
+    this.unsubscribe = selectCurrentGame(store,(currentGame) => {
+      this.setState({ ...currentGame });
     });
     this.reset();
   }
@@ -32,12 +32,7 @@ export class Game extends React.Component {
     turn: 0,
     history: []
   });
-  state: {
-    id: number,
-    values: Array<string>;
-    turn: number;
-    history: Array<Array<string>>;
-  };
+  state: GameState;
   reset() {
     this.setState(Game.initState());
     this.boardRef && this.boardRef.current
@@ -47,7 +42,13 @@ export class Game extends React.Component {
       : null;
   }
   newGame(): void {
-    this.props.onEnded({ ...this.state });
+    const oldState={
+      id:this.state.id,
+      turn:this.state.turn,
+      values:this.state.values,
+      history:[...this.state.history],
+    }
+    this.props.onEnded({ ...oldState });
     this.reset();
   }
   onClickSquare({ index, value }) {
@@ -63,9 +64,9 @@ export class Game extends React.Component {
     }
     const turn = this.state.turn + 1;
     const history = this.state.history.slice();
-    history.push(values);
     values[index] = this.state.turn % 2 ? "X" : "0";
-    this.setState({ values, turn, history });
+    history.push([...values]);
+    this.setState({ values, turn, history:[...history] });
     return values[index];
   }
   hasEnded() {

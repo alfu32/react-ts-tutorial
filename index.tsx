@@ -12,6 +12,8 @@ import { increment, decrement } from "./actions";
 // REDUCERS -> descries how actions are goingto transform current state into the next state
 import { reducers } from "./reducers";
 import { createCurrentGame, storeCurrentGame } from "./actions/games";
+import { selectGames } from "./selectors";
+import { MiniBoard } from "./MiniBoard";
 export const store = createStore(reducers);
 // Display it on the console
 
@@ -21,15 +23,16 @@ store.subscribe(() => console.log(store.getState()));
 store.dispatch(increment());
 store.dispatch(increment());
 store.dispatch(decrement());
-export interface GameState{
-  id:number|null;
-  values:Array<string>;
-  turn:number;
+export interface GameState {
+  id: number | null;
+  values: Array<string>;
+  turn: number;
+  history:Array<Array<string>>;
 }
 interface AppProps {}
 interface AppState {
   name: string;
-  games: {games:Array<GameState>,currentGame:GameState};
+  games: { games: Array<GameState>; currentGame: GameState };
   counter: number;
 }
 
@@ -39,55 +42,57 @@ class App extends Component<AppProps, AppState> {
     super(props);
     this.state = {
       name: "React",
-      games: {games:new Array(),currentGame:{id:null,values:'x0x0x  x 0 x 0x0'.split(''),turn:25}},
+      games: {
+        games: new Array(),
+        currentGame: {
+          id: null,
+          values: "x0x0x  x 0 x 0x0".split(""),
+          turn: 25,
+          history:[],
+        }
+      },
       counter: 22
     };
   }
-  UNSAFE_componentWillMount(){
-    this.unsubscribe = store.subscribe(() => {
-      const newState = { name:this.state.name,...store.getState() };
-      this.setState(newState);
-    });
+  UNSAFE_componentWillMount() {
+    this.unsubscribe = selectGames(store, games =>
+      this.setState({ name: this.state.name, ...store.getState() })
+    );
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.unsubscribe();
   }
-  chk(){
-    return (<Provider store={store}></Provider>);
+  chk() {
+    return <Provider store={store} />;
   }
   render() {
     return (
-        <div>
-          <Counter />
-          <div>Counter:{this.state.counter}</div>
-          <div>CurrentTurn:{this.state.games.currentGame.turn}</div>
-          <div>Games:{this.state.games.games.length}</div>
-          <ul>{
-            this.state.games.games.map(
-              game => (<li>Game {game.id} @ turn {game.turn}</li>)
-            )
-          }</ul>
-        <button
-          onClick={() => store.dispatch(storeCurrentGame())}
-        >
+      <div>
+        <Counter />
+        <div>Counter:{this.state.counter}</div>
+        <div>CurrentTurn:{this.state.games.currentGame.turn}</div>
+        <div>Games:{this.state.games.games.length}</div>
+        <ul>
+          {this.state.games.games.map(game => (
+            <li>
+              Game {game.id} @ turn {game.turn}{" "}
+              <MiniBoard turn={"" + game.turn} game={game.values} />
+            </li>
+          ))}
+        </ul>
+        <button onClick={() => store.dispatch(storeCurrentGame())}>
           store
         </button>
-        <button
-          onClick={() => store.dispatch(createCurrentGame())}
-        >
-          new
-        </button>
-          <Game
-            title={"Game"}
-            onEnded={gameData => {
-              store.dispatch(storeCurrentGame());
-              alert(
-                `game has ended in ${gameData.turn} moves \n play again ?`
-              );
-              return true;
-            }}
-          />
-        </div>
+        <button onClick={() => store.dispatch(createCurrentGame())}>new</button>
+        <Game
+          title={"Game"}
+          onEnded={gameData => {
+            store.dispatch(storeCurrentGame());
+            // alert(`game has ended in ${gameData.turn} moves \n play again ?`);
+            return true;
+          }}
+        />
+      </div>
     );
   }
 }

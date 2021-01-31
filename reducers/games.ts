@@ -6,7 +6,13 @@ export const gamesReducer = (
   action
 ) => {
   state.games = state.games || [];
-  let nextCurrentGameState = { ...state.currentGame };
+
+    let nextCurrentGameState={
+      id:state.currentGame.id,
+      turn:state.currentGame.turn,
+      values:state.currentGame.values,
+      history:[...state.currentGame.history],
+    }
   const currentGameValues = [...state.currentGame.values];
   switch (action.type) {
     case "be.alf.tictactoe.game.CREATE":
