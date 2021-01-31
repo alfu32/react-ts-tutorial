@@ -43,13 +43,10 @@ export const gamesReducer = (
       state.games = state.games.concat([state.currentGame]);
       return state;
     case "be.alf.tictactoe.game.move.SET":
-      nextCurrentGameState.turn++;
-      nextCurrentGameState.history = nextCurrentGameState.history.concat(
-        currentGameValues
-      );
-      nextCurrentGameState.values[action.payload.index] =
-        state.currentGame.turn % 2 ? "X" : "0";
-      state.currentGame = { ...nextCurrentGameState };
+      console.log({
+        received: action.payload
+      })
+      state.currentGame = { ...action.payload };
       state = { ...state };
       return state;
     case "be.alf.tictactoe.game.move.BACK":

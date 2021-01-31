@@ -52,7 +52,6 @@ export class Game extends React.Component {
     this.reset();
   }
   onClickSquare({ index, value }) {
-    store.dispatch(move(index));
     const values = this.state.values.slice();
     if (values[index] !== null) {
       this.onError({
@@ -67,6 +66,13 @@ export class Game extends React.Component {
     values[index] = this.state.turn % 2 ? "X" : "0";
     history.push([...values]);
     this.setState({ values, turn, history:[...history] });
+    const storeState={
+      id:this.state.id,
+      turn:turn,
+      values:[...values],
+      history:[...history],
+    }
+    store.dispatch(move(storeState));
     return values[index];
   }
   hasEnded() {
@@ -81,13 +87,13 @@ export class Game extends React.Component {
       <div className="game">
         <h4>{this.props.title}</h4>
         <button
-          style={{ dislpay: hasEnded ? "none" : null }}
+          // style={{ dislpay: hasEnded ? "none" : null }}
           onClick={() => this.reset()}
         >
           reset
         </button>
         <button
-          style={{ dislpay: hasEnded ? null : "none" }}
+          // style={{ dislpay: hasEnded ? null : "none" }}
           onClick={() => this.newGame()}
         >
           new
