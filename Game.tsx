@@ -1,6 +1,7 @@
 import React from "react";
 import { Unsubscribe } from "redux";
-import { GameState, store } from "./";
+import { GameState } from "./GameState";
+import { store } from "./";
 import { move, storeCurrentGame } from "./actions/games";
 import { Board } from "./Board";
 import { MiniBoard } from "./MiniBoard";
@@ -28,7 +29,7 @@ export class Game extends React.Component {
   };
   state: GameState;
   reset() {
-    this.setState(GameState.initState());
+    this.setState(GameState.initState(4));
     this.boardRef && this.boardRef.current
       ? this.boardRef.current.setState({
           values: new Array(16).fill(null)
@@ -40,7 +41,7 @@ export class Game extends React.Component {
     this.reset();
   }
   onChanged(){
-    const savedState=this.state.clone();
+    const savedState=GameState.clone(this.state);
     this.props.onChanged({ ...savedState });
   }
   onClickSquare({ index, value }) {

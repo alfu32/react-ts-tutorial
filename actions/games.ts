@@ -1,5 +1,6 @@
-export const createCurrentGame = () => ({
-  type: "be.alf.tictactoe.game.CREATE"
+export const createCurrentGame = (size) => ({
+  type: "be.alf.tictactoe.game.CREATE",
+  payload:{ size }
 });
 export const storeCurrentGame = () => ({
   type: "be.alf.tictactoe.game.STORE"

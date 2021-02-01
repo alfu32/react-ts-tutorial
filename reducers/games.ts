@@ -1,5 +1,5 @@
 
-import { GameState, GameStateClone } from "../";
+import { GameState, GameStateClone } from "../GameState";
 
 export const gamesReducer = (
   state = {
