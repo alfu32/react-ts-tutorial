@@ -1,27 +1,18 @@
+
+import { GameState, GameStateClone } from "../";
+
 export const gamesReducer = (
   state = {
     games: [],
-    currentGame: { id:null, values: new Array(16).fill(null), turn: 0, history: [] }
+    currentGame: {id:null,turn:0,size:3,values:new Array(9),history:[]}
   },
   action
 ) => {
   state.games = state.games || [];
-
-    let nextCurrentGameState={
-      id:state.currentGame.id,
-      turn:state.currentGame.turn,
-      values:state.currentGame.values,
-      history:[...state.currentGame.history],
-    }
-  const currentGameValues = [...state.currentGame.values];
+  let nextCurrentGameState=GameStateClone(state.currentGame);
   switch (action.type) {
     case "be.alf.tictactoe.game.CREATE":
-      state.currentGame = {
-        id:null,
-        values: new Array(16).fill(null),
-        turn: 0,
-        history: []
-      };
+      state.currentGame = new GameState(action.payload.size);
       return state;
     case "be.alf.tictactoe.game.STORE":
       if(nextCurrentGameState.id === null ) {

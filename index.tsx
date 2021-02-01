@@ -25,17 +25,36 @@ store.dispatch(increment());
 store.dispatch(decrement());
 export class GameState {
   id: number | null;
+  size: number;
   values: Array<string>;
   turn: number;
   history:Array<Array<string>>;
-
-  static initState = () => ({
-    id:null,
-    values: new Array(16).fill(null),
-    turn: 0,
-    history: []
-  });
+  constructor(size: number = 4){
+    this.id = null;
+    this.size = size;
+    this.turn = 0;
+    this.values = new Array(size * size).fill(null);
+    this.history = [];
+  }
+  clone(){
+    return {
+      id:this.id,
+      turn:this.turn,
+      values:this.values,
+      history:[...this.history],
+    }
+  }
+  static clone(gameState) {
+    const newGameState = new GameState(gameState.size);
+    newGameState.id = gameState.id;
+    newGameState.turn = gameState.turn;
+    newGameState.values = [...gameState.values];
+    newGameState.history = [...gameState.history];
+    return newGameState;
+  }
+  static initState = (size: number) => (new GameState(size));
 }
+export const GameStateClone = (state)=>{return GameState.clone(state);}
 interface AppProps {}
 interface AppState {
   name: string;

@@ -28,7 +28,7 @@ export class Game extends React.Component {
   };
   state: GameState;
   reset() {
-    this.setState(Game.initState());
+    this.setState(GameState.initState());
     this.boardRef && this.boardRef.current
       ? this.boardRef.current.setState({
           values: new Array(16).fill(null)
@@ -40,13 +40,8 @@ export class Game extends React.Component {
     this.reset();
   }
   onChanged(){
-    const oldState={
-      id:this.state.id,
-      turn:this.state.turn,
-      values:this.state.values,
-      history:[...this.state.history],
-    }
-    this.props.onChanged({ ...oldState });
+    const savedState=this.state.clone();
+    this.props.onChanged({ ...savedState });
   }
   onClickSquare({ index, value }) {
     const values = this.state.values.slice();
