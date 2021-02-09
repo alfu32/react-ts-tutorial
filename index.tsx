@@ -14,6 +14,7 @@ import { reducers } from "./reducers";
 import { createCurrentGame, storeCurrentGame } from "./actions/games";
 import { selectGames } from "./selectors";
 import { MiniBoard } from "./MiniBoard";
+import { ActionChain } from "./ActionChain";
 export const store = createStore(reducers);
 // Display it on the console
 
@@ -56,6 +57,7 @@ class App extends Component<AppProps, AppState> {
   render() {
     return (
       <div>
+        <ActionChain/>
         <Counter />
         <div>Counter:{this.state.counter}</div>
         <div>CurrentTurn:{this.state.games.currentGame.turn}</div>
