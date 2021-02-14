@@ -25,11 +25,11 @@ export function objectToTable(obj: object) {
     ...compound.map(k => JSON.stringify(obj[k]))
   ]
   const sections = subtables.reduce(
-    (agg,crt) => {
-      agg.push(crt);
+    (agg,k) => {
       agg = [
-        ...crt,
-
+        ...agg,
+        k,
+        ...jsonTableToTable(obj[k])
       ]
       return agg;
     },[]
@@ -45,8 +45,9 @@ export function jsonTableToTable(jsonTable: Array<object>){
   const body = [...Object.keys(head),...jsonTable.map(
     row => {
       return Object.keys(head).map(
-        k => typeof(row[k]) === 'undefined' ? '-' : row[k]
+        k => typeof(row[k]) === 'undefined' ? '-' : objectToTable(row[k])
       )
     }
   )];
+  return [...Object.keys(head),...body];
 }
